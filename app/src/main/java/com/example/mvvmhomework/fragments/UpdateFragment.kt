@@ -12,7 +12,6 @@ import androidx.navigation.fragment.navArgs
 import com.example.mvvmhomework.R
 import com.example.mvvmhomework.databinding.FragmentUpdateBinding
 import com.example.mvvmhomework.viewmodel.UpdateViewModel
-import com.example.mvvmhomework.viewmodel.factory.AddViewModelFactory
 import com.example.mvvmhomework.viewmodel.factory.UpdateViewModelFactory
 
 class UpdateFragment : Fragment() {

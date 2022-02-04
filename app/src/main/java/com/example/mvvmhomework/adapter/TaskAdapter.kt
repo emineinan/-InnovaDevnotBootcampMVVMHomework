@@ -19,11 +19,7 @@ class TaskAdapter(
 
     inner class CardViewHolder(rowItemBinding: RowItemBinding) :
         RecyclerView.ViewHolder(rowItemBinding.root) {
-        var binding: RowItemBinding
-
-        init {
-            this.binding = rowItemBinding
-        }
+        var binding: RowItemBinding = rowItemBinding
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
@@ -34,16 +30,15 @@ class TaskAdapter(
 
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
         val currentTask = taskList[position]
-        val t = holder.binding
-        t.task = currentTask
+        holder.binding.task = currentTask
 
-        t.cardViewTask.setOnClickListener {
+        holder.binding.cardViewTask.setOnClickListener {
             val action = HomeFragmentDirections.actionHomeFragmentToUpdateFragment(currentTask)
             Navigation.findNavController(it).navigate(action)
         }
 
-        t.imageViewDelete.setOnClickListener {
-            Snackbar.make(it, "${currentTask.title} deleted?", Snackbar.LENGTH_LONG)
+        holder.binding.imageViewDelete.setOnClickListener {
+            Snackbar.make(it, "Delete task ${currentTask.title}?", Snackbar.LENGTH_LONG)
                 .setAction("YES") {
                     viewModel.delete(currentTask.id)
                 }.show()
@@ -53,5 +48,4 @@ class TaskAdapter(
     override fun getItemCount(): Int {
         return taskList.size
     }
-
 }

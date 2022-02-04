@@ -19,6 +19,10 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         taskRepository.deleteTask(id)
     }
 
+    fun search(searchedWord: String) {
+        taskRepository.searchTask(searchedWord)
+    }
+
     fun allTasks() {
         taskRepository.allTasks()
     }

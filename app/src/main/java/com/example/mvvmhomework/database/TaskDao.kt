@@ -5,7 +5,6 @@ import com.example.mvvmhomework.model.Task
 
 @Dao
 interface TaskDao {
-
     @Query("SELECT * FROM tasks")
     suspend fun allTasks(): List<Task>
 
@@ -18,4 +17,6 @@ interface TaskDao {
     @Delete
     suspend fun deleteTask(task: Task)
 
+    @Query("SELECT * FROM tasks WHERE title like '%' || :searchedWord || '%'")
+    suspend fun searchTask(searchedWord: String): List<Task>
 }

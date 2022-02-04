@@ -1,23 +1,20 @@
 package com.example.mvvmhomework.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import com.example.mvvmhomework.R
 import com.example.mvvmhomework.adapter.TaskAdapter
 import com.example.mvvmhomework.databinding.FragmentHomeBinding
-import com.example.mvvmhomework.viewmodel.AddViewModel
 import com.example.mvvmhomework.viewmodel.HomeViewModel
-import com.example.mvvmhomework.viewmodel.factory.AddViewModelFactory
 import com.example.mvvmhomework.viewmodel.factory.HomeViewModelFactory
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var adapter: TaskAdapter
     private lateinit var viewModel: HomeViewModel
@@ -42,10 +39,31 @@ class HomeFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
         val tempViewModel: HomeViewModel by viewModels() {
             HomeViewModelFactory(requireActivity().application)
         }
         viewModel = tempViewModel
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.search_menu, menu)
+
+        val item = menu.findItem(R.id.action_search)
+        val searchView = item.actionView as SearchView
+        searchView.setOnQueryTextListener(this)
+
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onQueryTextSubmit(query: String): Boolean {
+        viewModel.search(query)
+        return true
+    }
+
+    override fun onQueryTextChange(newText: String): Boolean {
+        viewModel.search(newText)
+        return true
     }
 
     fun buttonClickFab(view: View) {

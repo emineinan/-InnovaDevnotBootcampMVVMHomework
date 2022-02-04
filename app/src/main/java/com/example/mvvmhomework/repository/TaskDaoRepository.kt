@@ -38,6 +38,12 @@ class TaskDaoRepository(var application: Application) {
         }
     }
 
+    fun searchTask(searchedWord: String) {
+        val job = CoroutineScope(Dispatchers.Main).launch {
+            taskList.value = taskDatabase.taskDao().searchTask(searchedWord)
+        }
+    }
+
     fun allTasks() {
         val job = CoroutineScope(Dispatchers.Main).launch {
             taskList.value = taskDatabase.taskDao().allTasks()
